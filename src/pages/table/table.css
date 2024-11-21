@@ -1,0 +1,42 @@
+.table-container {
+    max-height: 400px; /* Set a height for the scrolling area */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+  }
+  
+  .fixed-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .fixed-table th,
+  .fixed-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .fixed-table th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f8f8;
+    z-index: 1; /* Ensure headers are above content */
+  }
+  
+  .fixed-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .search-container {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.search-bar {
+    padding: 8px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+  
