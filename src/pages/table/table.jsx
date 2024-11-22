@@ -61,7 +61,7 @@ const FixedTable = () => {
                     onClick={openPopup}
                     style={{ padding: "10px 20px", margin: "20px" }}
                 >
-                    Open Popup
+                    Add New
                 </button>
                 <PopupForm isOpen={isPopupOpen} onClose={closePopup} />
             </div>
@@ -100,17 +100,7 @@ const FixedTable = () => {
                             {/* Category */}
                             <td rowSpan={rows.length}>{category}</td>
                             {/* Images column - only for the first row in each category */}
-                            <td rowSpan={rows.length}>
-                                {row.IMAGE ? (
-                                    <img
-                                        src={row.IMAGE}
-                                        alt={`${category} Image`}
-                                        style={{ width: "100px", height: "auto" }}
-                                    />
-                                ) : (
-                                    "No Image"
-                                )}
-                            </td>
+                           
                         </>
                     )}
                     {/* Variant and other fields */}
@@ -123,6 +113,7 @@ const FixedTable = () => {
                     <td>{row["100+"] || "N/A"}</td>
                     <td>{row["500+"] || "N/A"}</td>
                     <td>{row.MRP || "N/A"}</td>
+                    {index ===0 && (<td rowSpan={rows.length}>{row.Images}</td>)}
                 </tr>
             ));
         })

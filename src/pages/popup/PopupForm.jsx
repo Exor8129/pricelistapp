@@ -54,7 +54,7 @@ const PopupForm = ({ isOpen, onClose }) => {
       "50+": fiftyPlus,
       "100+": hundredPlus,
       "500+": fiveHundredPlus,
-      "MRP":maximumRetailPrice,
+      // "MRP":maximumRetailPrice,
     };
 
     try {
