@@ -1,42 +1,91 @@
-.table-container {
-    max-height: 400px; /* Set a height for the scrolling area */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ccc;
-  }
-  
-  .fixed-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .fixed-table th,
-  .fixed-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .fixed-table th {
-    position: sticky;
-    top: 0;
-    background-color: #f8f8f8;
-    z-index: 1; /* Ensure headers are above content */
-  }
-  
-  .fixed-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
+.main-container {
+  background-color: rgb(60, 60, 60);
+  height: 100vh;
+  width: 100vw;
+  padding: 5px;
+}
 
-  .search-container {
-    margin-bottom: 10px;
-    text-align: center;
+.table-container {
+  height: 100%; /* Set a height for the scrolling area */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.fixed-table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures borders are merged between cells */
+}
+
+.fixed-table th,
+.fixed-table td {
+  border: 1px solid #ddd; /* Consistent border for cells */
+  padding: 8px;
+  text-align: left;
+}
+
+.fixed-table th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f8f8;
+  z-index: 1; /* Ensure headers are above content */
+}
+
+.fixed-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.fixed-table tbody tr:hover {
+  background-color: #f1f1f1; /* Hover effect for table rows */
+  cursor: pointer; /* Change cursor to indicate interactivity */
+}
+
+.search-container {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .search-bar {
-    padding: 8px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  padding: 8px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-  
+.user-buttons {
+  margin-left: 10px;
+  padding: 3px 5px; /* Add padding to make the button bigger */
+  font-size: 10px; /* Set font size */
+  border: 2px solid #007BFF; /* Border color (blue in this case) */
+  background-color: white; /* Background color */
+  color: #007BFF; /* Text color */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline for links */
+  display: inline-block; /* Makes the button inline while allowing padding */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Hover effect for user button */
+.user-buttons:hover {
+  background-color: #007BFF; /* Change background to blue */
+  color: white; /* Change text color to white */
+  border-color: #0056b3; /* Darker blue border on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Focus state for accessibility (when user clicks or tabs to button) */
+.user-button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Light blue glow */
+}
