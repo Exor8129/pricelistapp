@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, collection, addDoc, updateDoc, doc } from "firebase/firestore";
+import { getDocs,getFirestore, collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { app } from "../../firebase"; // Import Firebase app initialization
 import "../popup/PopupForm.css";
 
@@ -13,13 +13,24 @@ const PopupForm = ({ isOpen, onClose, isEditMode, currentRow, onDelete }) => {
   const [fiftyPlus, setFiftyPlus] = useState("");
   const [hundredPlus, setHundredPlus] = useState("");
   const [fiveHundredPlus, setFiveHundredPlus] = useState("");
+  const [categories, setCategories] = useState([]);
 
-  const categories = [
-    "Nebulizers",
-    "Glucometers",
-    "Steth",
-    // Add more categories as needed
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const db = getFirestore(app);
+        const categoryRef = collection(db, "itemCategory"); // Reference to the 'itemCategory' collection
+        const categorySnapshot = await getDocs(categoryRef);
+        const categoryList = categorySnapshot.docs.map(doc => doc.data().CategoryName); // Get CategoryName from each document
+        
+        setCategories(categoryList);
+      } catch (error) {
+        console.error("Error fetching categories: ", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   // Set form fields for editing if in edit mode
   useEffect(() => {
@@ -129,11 +140,15 @@ const PopupForm = ({ isOpen, onClose, isEditMode, currentRow, onDelete }) => {
             Category:
             <select value={selectedCategory} onChange={handleCategoryChange}>
               <option value="">Select a category</option>
-              {categories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              ))}
+              {categories.length > 0 ? (
+                categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No categories available</option>
+              )}
             </select>
           </label>
           <label>
