@@ -2,19 +2,50 @@ const mongoose = require('mongoose');
 
 // Define the schema for the pricelist data
 const pricelistDataSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
-  Category_Name: { type: String, required: true },
-  Variant_Name: { type: String, required: true },
-  Single_Rate: { type: Number, required: true },
-  Five_Plus: { type: Number, required: false },
-  Ten_Plus: { type: Number, required: false },
-  Twenty_Plus: { type: Number, required: false },
-  Fifty_Plus: { type: Number, required: false },
-  Hundred_Plus: { type: Number, required: false },
-  MRP: { type: Number, required: true }
+  Category_Name_id: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to the categoryNames collection
+    ref: 'categoryNames',
+    required: true,
+  },
+  Variant: {
+    type: String, // Variant name
+    required: true,
+  },
+  Single: {
+    type: Number, // Price for single
+    required: true,
+  },
+  '5+': {
+    type: String, // Price for 5+
+    required: false,
+  },
+  '10+': {
+    type: Number, // Price for 10+
+    required: false,
+  },
+  '20+': {
+    type: String, // Price for 20+ (could be "-" which is a string)
+    required: false,
+  },
+  '50+': {
+    type: String, // Price for 50+ (could be "-" which is a string)
+    required: false,
+  },
+  '100+': {
+    type: String, // Price for 100+ (could be "-" which is a string)
+    required: false,
+  },
+  GST: {
+    type: String, // GST information
+    required: false,
+  },
+  MRP: {
+    type: Number, // Maximum Retail Price
+    required: true,
+  },
 });
 
 // Create a model based on the schema
-const Pricelist = mongoose.model('Pricelist', pricelistDataSchema);
+const Pricelist = mongoose.model('Pricelist', pricelistDataSchema, 'pricelistData');
 
 module.exports = Pricelist;

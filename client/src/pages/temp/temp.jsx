@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PopupForm from "../popup/PopupForm";
-import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { app } from "../../firebase"; // Import Firebase app initialization
 import { Eye, Pencil, Plus, Printer, Trash2,EyeOff } from "lucide-react";
 import "../table/table.css";
 import axios from "axios";
@@ -29,41 +27,33 @@ const FixedTable = () => {
 // Fetch date from MongoDB
 
 useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/categoryNames");
-          // Log the response data
-        setCategories(response.data);  // Set state
-        response.data.forEach(category => {
-            console.log("Category ID:", category.Category_Name);  // For MongoDB default `_id`
-            // or if you use 'id' in your schema, you can use category.id instead
-          });
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-  
-    fetchCategories();
-  }, []);
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/categoryNames");
+      setCategories(response.data);
+      // console.log(categories)
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+  fetchCategories();
+}, []);
 
-  // Fetch data from Firestore
-  useEffect(() => {
-    const fetchData = async () => {
-      const db = getFirestore(app);
-      try {
-        const querySnapshot = await getDocs(collection(db, "pricelistdata"));
-        const data = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setTableData(data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/pricelistdata");
+      setTableData(response.data);
+      response.data.forEach(tableData=>console.log(tableData.
+        Varrient))
+    } catch (error) {
+      console.error("Error fetching pricelist data: ", error);
+    }
+  };
+  fetchData();
+}, []);
 
-    fetchData();
-  }, []);
+
 
   // Filter data based on search term
   const filteredData = tableData.filter(
@@ -72,13 +62,13 @@ useEffect(() => {
       row.Variant?.toLowerCase().includes(searchTerm)
   );
 
-  // Group data by category
-  const groupedData = filteredData.reduce((acc, row) => {
-    const category = row.Category || "Uncategorized";
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(row);
-    return acc;
-  }, {});
+ // Group data by category
+const groupedData = filteredData.reduce((acc, row) => {
+  const category = row.Category || "Uncategorized";
+  if (!acc[category]) acc[category] = [];
+  acc[category].push(row);
+  return acc;
+}, {});
 
 // Toggle function to switch between Eye and EyeOff
   const toggleVisibility = () => {
