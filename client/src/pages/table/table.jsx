@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PopupForm from "../popup/PopupForm";
-import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { app } from "../../firebase"; // Import Firebase app initialization
 import { Eye, Pencil, Plus, Printer, Trash2,EyeOff } from "lucide-react";
 import "./table.css";
 
@@ -64,42 +62,7 @@ const FixedTable = () => {
     setIsVisible(prevState => !prevState);
   };
 
-  // Handle delete action
-  const handleDelete = async (id) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this entry?");
-    if (isConfirmed) {
-      const db = getFirestore(app);
-      try {
-        await deleteDoc(doc(db, "pricelistdata", id));
-        setTableData(tableData.filter(row => row.id !== id));  // Remove from table
-        alert("Entry deleted successfully!");
-      } catch (error) {
-        console.error("Error deleting document: ", error);
-        alert("Failed to delete entry!");
-      }
-    }
-  };
-
-  // Handle save (edit) action
-  const handleSave = async (updatedData) => {
-    if (!currentRow) return;
-
-    const db = getFirestore(app);
-    try {
-      const docRef = doc(db, "pricelistdata", currentRow.id);
-      await updateDoc(docRef, updatedData);
-      setTableData(
-        tableData.map((row) =>
-          row.id === currentRow.id ? { ...row, ...updatedData } : row
-        )
-      );  // Update the table with new data
-      alert("Entry updated successfully!");
-      closePopup();
-    } catch (error) {
-      console.error("Error updating document: ", error);
-      alert("Failed to update entry!");
-    }
-  };
+ 
 
   return (
     <div className="main-container">
@@ -192,7 +155,7 @@ const FixedTable = () => {
                           <td rowSpan={rows.length}><button onClick={() => openPopup(row)} className="user-buttons"><Printer/></button></td>                        
                       )}
                           <td>
-                            <button onClick={() => openPopup(row)} className="user-buttons">
+                            <button onClick={() => openPopup(row.id)} className="user-buttons">
                               <Pencil />
                             </button>
                             <button onClick={() => handleDelete(row.id)} className="user-buttons">

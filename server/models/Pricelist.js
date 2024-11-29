@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Define the schema for the pricelist data
 const pricelistDataSchema = new mongoose.Schema({
   Category_Name_id: {
-    type: mongoose.Schema.Types.ObjectId, // Reference to the categoryNames collection
+    type: String, // Reference to the categoryNames collection
     ref: 'categoryNames',
     required: true,
   },
@@ -35,7 +35,15 @@ const pricelistDataSchema = new mongoose.Schema({
     type: String, // Price for 100+ (could be "-" which is a string)
     required: false,
   },
+  '500+': {
+    type: String, // GST information
+    required: true,
+  },
   GST: {
+    type: String, // GST information
+    required: true,
+  },
+  GDL: {
     type: String, // GST information
     required: false,
   },
@@ -43,6 +51,7 @@ const pricelistDataSchema = new mongoose.Schema({
     type: Number, // Maximum Retail Price
     required: true,
   },
+
 });
 
 // Create a model based on the schema

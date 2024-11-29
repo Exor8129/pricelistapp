@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import FixedTable from './pages/table/table'
 import Temp from './pages/temp/temp'
+import YourComponent from './pages/temp/mytable'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,6 +13,7 @@ function App() {
     <>
       {/* <FixedTable/> */}
       <Temp/>
+      {/* <YourComponent/> */}
     </>
   )
 }
