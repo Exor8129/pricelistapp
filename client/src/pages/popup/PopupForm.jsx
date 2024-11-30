@@ -53,9 +53,11 @@ const PopupForm = ({
           setTwentyPlus(data["20+"] || "");
           setFiftyPlus(data["50+"] || "");
           setHundredPlus(data["100+"] || "");
+          setFiveHundredPlus(data["500+"] || "");
+          setGDL(data.GDL || "");
+          setGST(data.GST || "");
           setSelectedCategoryID(data.Category_Name_id || "");
           setmaximumRetailPrice(data.MRP || "");
-          
         })
         .catch((error) => {
           console.error("Error fetching data for editing:", error);
@@ -77,7 +79,6 @@ const PopupForm = ({
     };
     fetchCategories();
   }, []);
-  
 
   const handleCategoryChange = (e) => {
     const selectedId = e.target.value; // Get the selected Firebase ID
@@ -104,12 +105,12 @@ const PopupForm = ({
   const handleHundredPlusChange = (e) => setHundredPlus(e.target.value);
   const handleFiveHundredPlusChange = (e) => setFiveHundredPlus(e.target.value);
   const handleMRPChange = (e) => setmaximumRetailPrice(e.target.value);
-  const handleGDL= (e) => setGDL(e.target.value);
+  const handleGDL = (e) => setGDL(e.target.value);
   const handleGST = (e) => setGST(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Basic validation
     if (!variant || !single || !selectedCategoryID) {
       alert("Please fill out all the required fields!");
@@ -120,12 +121,14 @@ const PopupForm = ({
       alert("Invalid entry ID for update!");
       return;
     }
-  
-    const isConfirmed = window.confirm("Are you sure you want to submit the data?");
+
+    const isConfirmed = window.confirm(
+      "Are you sure you want to submit the data?"
+    );
     if (!isConfirmed) {
       return;
     }
-  
+
     // Prepare data to send to the backend
     const newData = {
       Category_Name_id: selectedCategoryID,
@@ -141,21 +144,24 @@ const PopupForm = ({
       GST: gst || "",
       GDL: gdl || "",
     };
-  
+
     console.log("New Data to Submit:", newData); // Log the data to verify
-  
+
     try {
       let response;
       if (isEditMode) {
         console.log("IN EDIT MODE");
         // If in edit mode, send a PUT request to update the entry
-        response = await fetch(`http://localhost:5000/api/pricelistData/${currentRow}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newData),
-        });
+        response = await fetch(
+          `http://localhost:5000/api/pricelistData/${currentRow}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newData),
+          }
+        );
       } else {
         // If in add mode, send a POST request to create a new entry
         console.log("IN NEW DATA MODE");
@@ -167,13 +173,17 @@ const PopupForm = ({
           body: JSON.stringify(newData),
         });
       }
-  
+
       const result = await response.json();
       if (response.ok) {
-        alert(isEditMode ? "Changes saved successfully!" : "Data added successfully!");
+        alert(
+          isEditMode
+            ? "Changes saved successfully!"
+            : "Data added successfully!"
+        );
         onSave(); // Trigger parent component to refresh data
         onClose(); // Close the popup
-  
+
         // Clear the form fields after successful submission
         setSelectedCategoryID("");
         setVariant("");
@@ -196,7 +206,6 @@ const PopupForm = ({
       alert("Failed to save data!");
     }
   };
-  
 
   const handleDelete = async () => {
     if (!currentRow) return;
